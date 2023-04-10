@@ -14,10 +14,10 @@ import jakarta.transaction.Transactional;
 @Service
 public class UserService {
     
-    @Autowired
+    @Autowired //Cria instâncias automaticamente para a classe abaixo
     private UserRepository userRepository;
 
-    @Autowired
+    @Autowired //Cria instâncias automaticamente para a classe abaixo
     private TaskRepository taskRepository;
 
     public User findById(Integer id) {
@@ -26,7 +26,7 @@ public class UserService {
                 "Usuário não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
     }
 
-    @Transactional
+    @Transactional //Envio de dados para o BDD
     public User create(User obj){
         obj.setId(null);
         obj = this.userRepository.save(obj);
@@ -34,7 +34,7 @@ public class UserService {
         return obj;
     }
 
-    @Transactional
+    @Transactional //Envio de dados para o BDD
     public User update(User obj){
         User newObj = findById(obj.getId());
         newObj.setPassword(obj.getPassword());

@@ -1,5 +1,6 @@
 package com.christian.primeiroSpring.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import jakarta.transaction.Transactional;
 @Service
 public class TaskService {
     
-    @Autowired
+    @Autowired //Cria instâncias automaticamente para a classe abaixo
     private TaskRepository taskRepository;
 
-    @Autowired
+    @Autowired //Cria instâncias automaticamente para a classe abaixo
     private UserService userService;
 
     public Task findById(Integer id) {
@@ -26,7 +27,7 @@ public class TaskService {
                 "Tarefa não encontrada! Id: " + id + ", Tipo: " + Task.class.getName()));
     }
 
-    @Transactional
+    @Transactional //Envio de dados para o BDD
     public Task create(Task obj) {
         User user = this.userService.findById(obj.getUser().getId());
         obj.setId(null);
@@ -35,7 +36,7 @@ public class TaskService {
         return obj;
     }
 
-    @Transactional
+    @Transactional //Envio de dados para o BDD
     public Task update(Task obj) {
         Task newObj = findById(obj.getId());
         newObj.setDescription(obj.getDescription());
@@ -49,5 +50,10 @@ public class TaskService {
         } catch (Exception e) {
             throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
         }
+    }
+
+    public List<Task> findAllByUserId(Integer userId){
+        List<Task> tasks = this.taskRepository.findByUser_Id(userId);
+        return tasks;
     }
 }
