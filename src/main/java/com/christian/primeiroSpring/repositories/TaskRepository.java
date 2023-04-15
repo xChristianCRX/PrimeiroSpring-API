@@ -3,11 +3,11 @@ package com.christian.primeiroSpring.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository;
 
 import com.christian.primeiroSpring.models.Task;
 
-//@Repository
+@Repository
 public interface TaskRepository extends JpaRepository<Task, Integer>{
 
     List<Task>findByUser_Id(Integer id);
