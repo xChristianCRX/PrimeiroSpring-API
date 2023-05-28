@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.christian.primeiroSpring.models.User;
 import com.christian.primeiroSpring.repositories.TaskRepository;
 import com.christian.primeiroSpring.repositories.UserRepository;
+import com.christian.primeiroSpring.services.exceptions.DataBindingViolationException;
+import com.christian.primeiroSpring.services.exceptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -22,7 +24,7 @@ public class UserService {
 
     public User findById(Integer id) {
         Optional<User> user = this.userRepository.findById(id);
-        return user.orElseThrow(() -> new RuntimeException(
+        return user.orElseThrow(() -> new ObjectNotFoundException(
                 "Usuário não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
     }
 
@@ -46,7 +48,7 @@ public class UserService {
         try {
             this.userRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
+            throw new DataBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
 }
